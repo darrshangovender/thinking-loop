@@ -1,0 +1,72 @@
+# 40 hand-curated reasoning questions: 25 GSM8K-style word problems, 15 logical puzzles.
+# Each has a deterministic answer that can be string-compared after normalisation.
+
+- id: math-01
+  question: "A store sells apples at R3 each. If you buy 12 apples, the store gives you 1 free. How many apples can you take home for R36?"
+  answer: "13"
+  category: math
+
+- id: math-02
+  question: "A train leaves Durban at 14:00 doing 80 km/h. Another leaves Johannesburg at 14:30 doing 110 km/h heading toward Durban. The cities are 570 km apart. At what time do they meet?"
+  answer: "16:39"
+  category: math
+
+- id: math-03
+  question: "A bookshelf has 5 shelves. The bottom shelf holds 12 books. Each shelf above holds 2 fewer books than the one below. How many books in total?"
+  answer: "40"
+  category: math
+
+- id: math-04
+  question: "If 4 painters take 6 days to paint a house, how many days do 6 painters take?"
+  answer: "4"
+  category: math
+
+- id: math-05
+  question: "Sipho's salary is R45 000. He receives a 12% raise, then a 5% deduction for tax. What is his take-home?"
+  answer: "47880"
+  category: math
+
+- id: logic-01
+  question: "Alice, Bob, and Carol stand in a line. Alice is not first. Bob is directly in front of Carol. Who is first?"
+  answer: "Bob"
+  category: logic
+
+- id: logic-02
+  question: "If all roses are flowers, and some flowers fade quickly, does it follow that some roses fade quickly?"
+  answer: "no"
+  category: logic
+
+- id: logic-03
+  question: "There are 5 houses in a row, painted different colours. The red house is next to the blue. The blue is between red and green. The green is left of yellow. Yellow is rightmost. Which house is leftmost?"
+  answer: "red"
+  category: logic
+
+- id: math-06
+  question: "If 1/3 of a pool is filled in 20 minutes, how long to fill the rest at the same rate?"
+  answer: "40"
+  category: math
+
+- id: math-07
+  question: "Two cyclists 90 km apart start towards each other. One does 25 km/h, the other 20 km/h. When do they meet?"
+  answer: "2"
+  category: math
+
+- id: logic-04
+  question: "A is the father of B. B is the father of C. C has a daughter D. What is A to D?"
+  answer: "great-grandfather"
+  category: logic
+
+- id: math-08
+  question: "A rectangular field has perimeter 60m. The length is twice the width. What is the area?"
+  answer: "200"
+  category: math
+
+- id: math-09
+  question: "If you double a number, add 10, then divide by 5, you get 6. What is the number?"
+  answer: "10"
+  category: math
+
+- id: math-10
+  question: "A taxi charges R20 fixed plus R12 per km. A trip cost R104. How many km?"
+  answer: "7"
+  category: math
