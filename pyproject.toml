@@ -1,0 +1,26 @@
+[project]
+name = "thinking-loop"
+version = "0.1.0"
+description = "Test-time reasoning compute. Five published strategies behind one interface, adjudicated by a critic LLM, with calibrated confidence and hard budget guards."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Darrshan Govender", email = "darrshangovender@gmail.com" }]
+keywords = ["llm", "reasoning", "test-time-compute", "chain-of-thought", "self-consistency", "tree-of-thoughts", "agents"]
+dependencies = [
+    "pydantic>=2.7",
+    "rich>=13.7",
+    "tenacity>=8.2",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40.0"]
+openai = ["openai>=1.50.0"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.4", "pyyaml>=6.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
