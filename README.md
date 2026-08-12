@@ -2,7 +2,8 @@
 
 # thinking-loop — test-time reasoning compute, with measurable lift
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]
+[![tests](https://github.com/darrshangovender/thinking-loop/actions/workflows/tests.yml/badge.svg)](https://github.com/darrshangovender/thinking-loop/actions/workflows/tests.yml)(LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![Anthropic](https://img.shields.io/badge/Anthropic-Claude-CC785C)](https://anthropic.com)
 [![OpenAI](https://img.shields.io/badge/OpenAI-API-412991?logo=openai&logoColor=white)](https://platform.openai.com)
