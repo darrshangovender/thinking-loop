@@ -12,7 +12,6 @@ import time
 from dataclasses import dataclass
 from typing import Any
 
-
 # Per-1M-token USD pricing. Update quarterly.
 PRICES: dict[str, tuple[float, float]] = {
     "claude-sonnet-4-5":   (3.00, 15.00),
