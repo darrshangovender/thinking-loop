@@ -18,7 +18,8 @@ from collections import Counter
 from ..budget import Budget
 from ..trace import Trace
 from .base import Candidate, Strategy
-from .cot import SYSTEM as COT_SYSTEM, _extract_answer
+from .cot import SYSTEM as COT_SYSTEM
+from .cot import _extract_answer
 
 
 def _normalise_answer(ans: str) -> str:
@@ -54,7 +55,7 @@ class SelfConsistency(Strategy):
                     system=COT_SYSTEM, trace=trace, budget=budget,
                     max_tokens=1024, temperature=self.temperature,
                 )
-            except Exception:
+            except Exception:  # noqa: BLE001  a failed sample is dropped; the vote continues
                 return ""
 
         texts = await asyncio.gather(*(one_sample(i) for i in range(self.n)))
