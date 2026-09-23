@@ -7,10 +7,10 @@ returns Answer with full trace. Hard budget guards throughout.
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Sequence
 
-from .adjudicator import Adjudicator, AdjudicationResult
+from .adjudicator import AdjudicationResult, Adjudicator
 from .budget import Budget, BudgetExceeded
 from .confidence import calibrate
 from .strategies.base import Candidate, Strategy
@@ -56,7 +56,7 @@ class ThinkingLoop:
             except BudgetExceeded as e:
                 trace.emit("budget_exceeded", s.name, reason=str(e))
                 return None
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001  one strategy failing must not sink the loop
                 trace.emit("error", s.name, error=str(e)[:300])
                 return None
 
@@ -69,9 +69,10 @@ class ThinkingLoop:
         # 2. Adjudicate.
         try:
             adj = await self.adjudicator.judge(question, candidates, trace=trace, budget=self.budget)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001  adjudicator failure falls back to first candidate
             trace.emit("error", "adjudicator", error=str(e)[:300])
-            # Fall back: pick the first candidate from the most expensive strategy.
+            # Fall back to the first candidate, i.e. the earliest strategy in the
+            # configured order. There is no ranking signal left to do better with.
             winner = candidates[0]
             return Answer(
                 final=winner.answer, confidence=0.5, winning_strategy=winner.strategy,
