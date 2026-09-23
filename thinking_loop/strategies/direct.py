@@ -11,7 +11,6 @@ from ..budget import Budget
 from ..trace import Trace
 from .base import Candidate, Strategy
 
-
 SYSTEM = "Answer the question directly and concisely. State the final answer on the last line, prefixed with 'Answer: '."
 
 
