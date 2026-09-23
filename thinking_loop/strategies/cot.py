@@ -10,7 +10,6 @@ from ..budget import Budget
 from ..trace import Trace
 from .base import Candidate, Strategy
 
-
 SYSTEM = """\
 Reason step by step before answering. Format your response as:
 
