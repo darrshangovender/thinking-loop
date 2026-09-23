@@ -5,7 +5,11 @@ Rubric (deliberately small + strict):
   - reasoning_quality (0-2)   : is the chain coherent, free of jumps and hallucinations
   - calibration (0-2)         : does the answer's specificity match what the question demands
 
-Total /7. Highest score wins; ties broken by reasoning_quality, then by lower latency.
+Total /7. Highest score wins; ties broken by reasoning_quality.
+
+The rubric — not the model's own `winner_index` — is authoritative. The critic is
+asked to report a winner, but it is free to name an index that contradicts its
+scores or does not exist; `_resolve_winner` reconciles the two.
 """
 
 from __future__ import annotations
@@ -82,9 +86,36 @@ class Adjudicator:
         budget.add(tokens_in=resp.tokens_in, tokens_out=resp.tokens_out, cost_usd=resp.cost_usd)
         data = _parse_json(resp.content)
         try:
-            return AdjudicationResult(**data)
+            result = AdjudicationResult(**data)
         except ValidationError as e:
             raise ValueError(f"adjudicator returned invalid JSON: {e}") from e
+        result.winner_index = _resolve_winner(result.scores, len(candidates), result.winner_index)
+        return result
+
+
+def _resolve_winner(scores: list[Score], n_candidates: int, claimed: int) -> int:
+    """Reconcile the adjudicator's claimed winner against its own scores.
+
+    ``winner_index`` arrives straight from model output, so it can (a) point past
+    the end of the candidate list — an IndexError one frame later, after the
+    adjudicator's try/except has already been left — or (b) be negative, which
+    Python resolves silently to a candidate counting from the end. Worse, it can
+    simply disagree with the rubric and hand back the answer the critic itself
+    scored lowest.
+
+    The rubric decides: highest total, ties broken by reasoning_quality. A claim
+    that is already top-ranked is honoured as-is, so a well-behaved adjudicator
+    sees no change in behaviour.
+    """
+    usable = [s for s in scores if 0 <= s.candidate_index < n_candidates]
+    if not usable:
+        return claimed if 0 <= claimed < n_candidates else 0
+    rank = lambda s: (s.total, s.reasoning_quality)  # noqa: E731
+    best = max(usable, key=rank)
+    claimed_score = next((s for s in usable if s.candidate_index == claimed), None)
+    if claimed_score is not None and rank(claimed_score) == rank(best):
+        return claimed
+    return best.candidate_index
 
 
 def _parse_json(text: str) -> dict:
