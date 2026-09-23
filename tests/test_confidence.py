@@ -30,3 +30,10 @@ def test_disagreement_lowers_confidence():
 def test_zero_candidates_returns_zero():
     adj = _adj(winner=0, scores=[(0, 0, 0)])
     assert calibrate([], adj) == 0.0
+
+def test_out_of_range_winner_index_yields_no_confidence():
+    """calibrate() is public and winner_index originates in model output; a
+    negative index used to index from the end and calibrate the wrong answer."""
+    cs = [Candidate(strategy="a", answer="42"), Candidate(strategy="b", answer="7")]
+    assert calibrate(cs, _adj(winner=-1, scores=[(3, 2, 2), (0, 0, 0)])) == 0.0
+    assert calibrate(cs, _adj(winner=5, scores=[(3, 2, 2), (0, 0, 0)])) == 0.0
