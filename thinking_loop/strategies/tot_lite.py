@@ -23,7 +23,6 @@ from ..budget import Budget
 from ..trace import Trace
 from .base import Candidate, Strategy
 
-
 EXPAND_SYSTEM = """\
 You are working step by step on a hard problem. Given the question and the
 reasoning so far, propose ONE next reasoning step. Be concrete: state what
