@@ -18,7 +18,6 @@ from ..budget import Budget
 from ..trace import Trace
 from .base import Candidate, Strategy
 
-
 SYSTEM = """\
 You are decomposing and answering hard questions. Format:
 
