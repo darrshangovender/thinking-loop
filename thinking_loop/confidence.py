@@ -13,12 +13,10 @@ on your own benchmark for production use.
 from __future__ import annotations
 
 import statistics
-from typing import Iterable
 
-from .adjudicator import AdjudicationResult, Score
+from .adjudicator import AdjudicationResult
 from .strategies.base import Candidate
 from .strategies.self_consistency import _normalise_answer
-
 
 _AGREEMENT_WEIGHT = 0.5
 _SCORE_WEIGHT = 0.3
@@ -26,7 +24,10 @@ _VARIANCE_WEIGHT = 0.2
 
 
 def calibrate(candidates: list[Candidate], adjudication: AdjudicationResult) -> float:
-    if not candidates:
+    # ``winner_index`` originates in model output. Adjudicator.judge reconciles it,
+    # but calibrate() is public, so guard here too: a negative index would index
+    # from the end and silently calibrate against the wrong answer.
+    if not candidates or not 0 <= adjudication.winner_index < len(candidates):
         return 0.0
     winner = candidates[adjudication.winner_index]
 
