@@ -2,11 +2,10 @@
 
 import pytest
 
-from thinking_loop import Budget
-from thinking_loop.strategies import Direct, ChainOfThought, SelfConsistency, Decomposition, ToTLite
-from thinking_loop.strategies.self_consistency import _normalise_answer
+from thinking_loop.strategies import SelfConsistency, ToTLite
 from thinking_loop.strategies.cot import _extract_answer as cot_extract
 from thinking_loop.strategies.decomposition import _extract_sub_questions
+from thinking_loop.strategies.self_consistency import _normalise_answer
 
 
 def test_self_consistency_normalises_numbers():
