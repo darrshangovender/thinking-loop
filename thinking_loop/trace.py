@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 EventKind = Literal["strategy_start", "strategy_end", "llm_call", "adjudicator_call", "budget_exceeded", "error"]
@@ -28,11 +28,11 @@ class Trace:
         self._spans: dict[str, float] = {}
 
     def emit(self, kind: EventKind, actor: str, **payload: Any) -> None:
-        self.events.append(TraceEvent(kind=kind, actor=actor, ts=datetime.now(timezone.utc), payload=payload))
+        self.events.append(TraceEvent(kind=kind, actor=actor, ts=datetime.now(UTC), payload=payload))
 
     def emit_llm(self, actor: str, *, model: str, tokens_in: int, tokens_out: int, cost_usd: float | None, duration_ms: int, **extra: Any) -> None:
         self.events.append(TraceEvent(
-            kind="llm_call", actor=actor, ts=datetime.now(timezone.utc),
+            kind="llm_call", actor=actor, ts=datetime.now(UTC),
             duration_ms=duration_ms, tokens_in=tokens_in, tokens_out=tokens_out, cost_usd=cost_usd,
             payload={"model": model, **extra},
         ))
@@ -58,7 +58,7 @@ class Trace:
 
     def summary(self) -> str:
         ti, to = self.total_tokens()
-        n_strats = len(set(e.actor for e in self.events if e.kind == "strategy_end"))
+        n_strats = len({e.actor for e in self.events if e.kind == "strategy_end"})
         return (
             f"{n_strats} strategies, {len(self.llm_calls())} LLM calls, "
             f"tokens={ti}+{to}, ${self.total_cost_usd():.4f}"
