@@ -7,19 +7,24 @@ Public surface:
     Trace, TraceEvent          — observability
 """
 
-from .core import ThinkingLoop, Answer
+from .adjudicator import AdjudicationResult, Adjudicator
 from .budget import Budget, BudgetExceeded
-from .trace import Trace, TraceEvent
-from .strategies.base import Strategy, Candidate
-from .adjudicator import Adjudicator, AdjudicationResult
 from .confidence import calibrate
+from .core import Answer, ThinkingLoop
+from .strategies.base import Candidate, Strategy
+from .trace import Trace, TraceEvent
 
 __version__ = "0.1.0"
 __all__ = [
-    "ThinkingLoop", "Answer",
-    "Budget", "BudgetExceeded",
-    "Trace", "TraceEvent",
-    "Strategy", "Candidate",
-    "Adjudicator", "AdjudicationResult",
+    "AdjudicationResult",
+    "Adjudicator",
+    "Answer",
+    "Budget",
+    "BudgetExceeded",
+    "Candidate",
+    "Strategy",
+    "ThinkingLoop",
+    "Trace",
+    "TraceEvent",
     "calibrate",
 ]
